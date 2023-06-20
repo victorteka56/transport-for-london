@@ -13,5 +13,9 @@ public class UserController {
     public String login(@RequestBody LoginRequest loginRequest) {
         return "Login";
     }
+    @GetMapping("/restricted")
+    public String restrictedTest(@RequestBody LoginRequest loginRequest) {
+        return "Restricted";
+    }
 
 }

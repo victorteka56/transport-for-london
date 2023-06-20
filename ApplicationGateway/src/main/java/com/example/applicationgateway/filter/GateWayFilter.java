@@ -94,6 +94,9 @@ public class GateWayFilter implements GlobalFilter {
 
 
     private boolean isPathsMatched(String method, String path, List<String> regexPaths){
+        System.out.println("Method: " + method);
+        System.out.println("path: " + path);
+        System.out.println("regexPath: " + regexPaths);
         String pathAndMethod = (method + " " + path).toLowerCase();
         boolean result = false;
         for(String regexPath: regexPaths){
