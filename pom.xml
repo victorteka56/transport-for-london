@@ -41,7 +41,7 @@
     <module>UsersService</module>
     <module>ApplicationGateway</module>
     <module>JDRService</module>
-    <module>RTDIService</module>
+    <module>RTDISService</module>
     <module>PresentationService</module>
   </modules>
 </project>

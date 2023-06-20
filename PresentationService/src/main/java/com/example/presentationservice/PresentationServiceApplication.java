@@ -1,5 +1,6 @@
 package com.example.presentationservice;
 
+import com.example.presentationservice.message.Message;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.ably.lib.realtime.AblyRealtime;
@@ -35,28 +36,24 @@ public class PresentationServiceApplication implements CommandLineRunner {
 
     @Scheduled(fixedDelay = 10000)
     public void run() throws AblyException {
-        List<String> lineNames = List.of("Northern", "Central", "Eastern", "Western");
-        List<String> directions = List.of("Outbound", "Inbound","Eastbound", "WestBound");
+        List<String> topics = List.of("TimeToStation", "LineNames", "Directions");
         Random random = new Random();
-
-        List<String> lineNamesData = new ArrayList<>();
-        List<String> directionsData = new ArrayList<>();
+        List<Message> streamData = new ArrayList<>();
 
         for (int i = 0; i < 100; i++) {
-            lineNamesData.add(lineNames.get(random.nextInt(lineNames.size())));
-            directionsData.add(directions.get(random.nextInt(directions.size())));
+            streamData.add(new Message(topics.get(random.nextInt(topics.size())), random.nextInt(5,20)));
         }
 
-
-
-       Map<String, List<String>> sendData = new HashMap<>();
-        sendData.put("LineName", lineNamesData);
-        sendData.put("Direction", directionsData);
+//
+//
+//       Map<String, List<Message>> sendData = new HashMap<>();
+//        sendData.put("messages", streamData);
+////        sendData.put("Direction", directionsData);
 
         ObjectMapper objectMapper = new ObjectMapper();
         String jsonData;
         try {
-            jsonData = objectMapper.writeValueAsString(sendData);
+            jsonData = objectMapper.writeValueAsString(streamData);
         } catch (JsonProcessingException e) {
             System.err.println("Failed to convert to JSON: " + e.getMessage());
             return;
