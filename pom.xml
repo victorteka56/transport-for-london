@@ -40,5 +40,8 @@
     <module>ConfigServer</module>
     <module>UsersService</module>
     <module>ApplicationGateway</module>
+    <module>JDRService</module>
+    <module>RTDIService</module>
+    <module>PresentationService</module>
   </modules>
 </project>

@@ -1,0 +1,15 @@
+spring:
+  kafka:
+    bootstrap-servers: localhost:9092
+    template:
+      default-topic: london-bus
+    key-serializer: org.apache.kafka.common.serialization.StringSerializer
+    value-serializer: org.apache.kafka.common.serialization.StringSerializer
+
+ably:
+  api:
+    key: Hbqg4w.kesSVg:K8vyRvFuH-t0vwcTFW89-2DgJufOOoC-T__gPYwgcKk
+  channels:
+    - "[product:ably-tfl/tube]tube:940GZZLUNOW:arrivals"
+    - "[product:ably-tfl/tube]tube:940GZZLUCPK:arrivals"
+    - "[product:ably-tfl/tube]tube:940GZZLUWRR:arrivals"
