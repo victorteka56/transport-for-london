@@ -105,7 +105,7 @@ public class JDRSConsumerProducer {
         consumerProps.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
         consumerProps.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
         consumerProps.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
-        consumerProps.put(ConsumerConfig.GROUP_ID_CONFIG, "group2"); // Specify your consumer group ID
+        consumerProps.put(ConsumerConfig.GROUP_ID_CONFIG, "group2"); 
         KafkaConsumer<String, String> kafkaConsumer = new KafkaConsumer<>(consumerProps);
 
         kafkaConsumer.subscribe(Collections.singletonList("london-bus-SA"));
