@@ -1,4 +1,4 @@
-package src.main.java.com.example.rtdiservice;
+package org.example;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

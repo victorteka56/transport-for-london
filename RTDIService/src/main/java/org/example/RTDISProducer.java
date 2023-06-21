@@ -1,23 +1,21 @@
-package src.main.java.com.example.rtdiservice;
+package org.example;
 
+import com.google.gson.JsonObject;
 import io.ably.lib.realtime.AblyRealtime;
 import io.ably.lib.realtime.Channel;
 import io.ably.lib.realtime.Channel.MessageListener;
 import io.ably.lib.types.AblyException;
 import io.ably.lib.types.Message;
-import org.apache.kafka.clients.producer.Producer;
-import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.clients.producer.KafkaProducer;
+import org.apache.kafka.clients.producer.Producer;
 import org.apache.kafka.clients.producer.ProducerConfig;
+import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.common.serialization.StringSerializer;
-
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.event.EventListener;
 import org.springframework.kafka.annotation.EnableKafka;
-import com.google.gson.JsonObject;
-
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -29,7 +27,7 @@ import java.util.Properties;
 public class RTDISProducer {
     @Bean
     public AblyRealtime ablyRealtime() {
-        String ablyApiKey = "Hbqg4w.jj7Q6g:NrJdxyUo-PnMrCPR445t3Cw1rskUh7zTQfYTkbZ_WxM";
+        String ablyApiKey = "Hbqg4w.zwuBVA:lzHWwuxh4Lm3Opfgq8YAMhC2IQmYzt8BjZXmDM6596I";
         try {
             return new AblyRealtime(ablyApiKey);
         } catch (AblyException e) {
@@ -44,10 +42,10 @@ public class RTDISProducer {
         List<String> channelNames = Arrays.asList(
                 "[product:ably-tfl/tube]tube:940GZZLUNOW:arrivals",
                 "[product:ably-tfl/tube]tube:940GZZLUCPK:arrivals",
-//                "[product:ably-tfl/tube]tube:northern:940GZZLUSKW:arrivals"
-                "[product:ably-tfl/tube]tube:940GZZLUWRR:arrivals"
-//                "[product:ably-tfl/tube]tube:district:940GZZLUEHM:arrivals"
-//                "[product:ably-tfl/tube]tube:northern:940GZZLUEUS:arrivals"
+                "[product:ably-tfl/tube]tube:northern:940GZZLUSKW:arrivals",
+                "[product:ably-tfl/tube]tube:940GZZLUWRR:arrivals",
+                "[product:ably-tfl/tube]tube:district:940GZZLUEHM:arrivals",
+                "[product:ably-tfl/tube]tube:northern:940GZZLUEUS:arrivals"
         );
 
         List<Channel> channels = new ArrayList<>();
@@ -99,11 +97,13 @@ public class RTDISProducer {
         List<Channel> channels = ablyChannels(ablyRealtime());
         MessageListener messageListener = ablyMessageListener(kafkaProducer());
 
+        // Subscribe to each channel
         for (Channel channel : channels) {
             channel.subscribe(messageListener);
             System.out.println("Subscribed to channel: " + channel.name);
         }
 
+        // Additional actions based on the event
         System.out.println("Ably listener configured for " + channels.size() + " channel(s)");
     }
 
