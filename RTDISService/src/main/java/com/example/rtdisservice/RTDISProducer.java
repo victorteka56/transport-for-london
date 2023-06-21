@@ -1,4 +1,4 @@
-package org.example;
+package com.example.rtdisservice;
 
 import com.google.gson.JsonObject;
 import io.ably.lib.realtime.AblyRealtime;
@@ -16,18 +16,19 @@ import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.event.EventListener;
 import org.springframework.kafka.annotation.EnableKafka;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 
-@SpringBootApplication
-@EnableKafka
+
+@Component
 public class RTDISProducer {
     @Bean
     public AblyRealtime ablyRealtime() {
-        String ablyApiKey = "Hbqg4w.zwuBVA:lzHWwuxh4Lm3Opfgq8YAMhC2IQmYzt8BjZXmDM6596I";
+        String ablyApiKey = "Hbqg4w.KCiACA:LlUW-i7LuhocsiDbZRvGTvY-HllDteAfBA3ckktpHK8";
         try {
             return new AblyRealtime(ablyApiKey);
         } catch (AblyException e) {
@@ -42,10 +43,10 @@ public class RTDISProducer {
         List<String> channelNames = Arrays.asList(
                 "[product:ably-tfl/tube]tube:940GZZLUNOW:arrivals",
                 "[product:ably-tfl/tube]tube:940GZZLUCPK:arrivals",
-                "[product:ably-tfl/tube]tube:northern:940GZZLUSKW:arrivals",
-                "[product:ably-tfl/tube]tube:940GZZLUWRR:arrivals",
-                "[product:ably-tfl/tube]tube:district:940GZZLUEHM:arrivals",
-                "[product:ably-tfl/tube]tube:northern:940GZZLUEUS:arrivals"
+//                "[product:ably-tfl/tube]tube:northern:940GZZLUSKW:arrivals",
+                "[product:ably-tfl/tube]tube:940GZZLUWRR:arrivals"
+//                "[product:ably-tfl/tube]tube:district:940GZZLUEHM:arrivals",
+//                "[product:ably-tfl/tube]tube:northern:940GZZLUEUS:arrivals"
         );
 
         List<Channel> channels = new ArrayList<>();

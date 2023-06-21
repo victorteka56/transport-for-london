@@ -1,9 +1,14 @@
 package com.example.jdrservice;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import io.ably.lib.realtime.AblyRealtime;
+import io.ably.lib.realtime.Channel;
+import io.ably.lib.types.AblyException;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
@@ -20,14 +25,16 @@ import org.springframework.context.event.EventListener;
 import org.springframework.kafka.annotation.EnableKafka;
 
 import java.time.Duration;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Properties;
-import java.util.Set;
+import java.util.*;
 
 @SpringBootApplication
 @EnableKafka
 public class JDRSConsumerProducer {
+    static AblyRealtime ably;
+    public JDRSConsumerProducer() throws AblyException {
+        ably = new AblyRealtime("qej_5A.CGaOkg:5zJYSv8GTuzqHemS-6S_nwWoKRCUnjWlz8yKkNF94mA");
+
+    }
     private static final Set<String> existingTopics = new HashSet<>();
 
 
@@ -47,6 +54,7 @@ public class JDRSConsumerProducer {
     }
 
     public static class MessageListener {
+
         private KafkaProducer<String, String> kafkaProducer;
 
         public MessageListener(KafkaProducer<String, String> kafkaProducer) {
@@ -54,7 +62,6 @@ public class JDRSConsumerProducer {
         }
 
         public void onMessage(String topicName, String message) {
-            System.out.println("Received message: " + message);
 
             JsonElement jsonElement = JsonParser.parseString(message);
             JsonObject jsonObject = jsonElement.getAsJsonObject();
@@ -63,9 +70,12 @@ public class JDRSConsumerProducer {
             Set<String> fieldNames = jsonObject.keySet();
             for (String fieldName : fieldNames) {
                 JsonArray fieldArray = jsonObject.getAsJsonArray(fieldName);
+
+
                 if (fieldArray != null) {
                     for (JsonElement fieldElement : fieldArray) {
                         JsonObject fieldObject = fieldElement.getAsJsonObject();
+
 
 
                         for (String elementName : fieldObject.keySet()) {
@@ -73,15 +83,33 @@ public class JDRSConsumerProducer {
 //
                             JsonElement elementValue = fieldObject.get(elementName);
 
+
+
+
                             kafkaProducer.send(new ProducerRecord<>(topic, elementValue.toString()));
 
+                            List<String> topics = List.of("DS_CurrentLocation","DS_DestinationName", "DS_ExpectedArrival","DS_LineName","DS_Direction","DS_Towards");
+                            if(topics.contains(topic)) {
+                                Channel channel = ably.channels.get("channel1");
+                                    try {
+                                        channel.publish(topic, elementValue);
 
-                            sendToStream(topic, elementValue.toString());
+                                        System.out.println("Published message");
+                                        System.out.println(fieldObject);
+                                    } catch (AblyException e) {
+                                        throw new RuntimeException(e);
+                                    }
+                            }
+
+                        }
                         }
                     }
                 }
             }
-        }
+
+
+
+
 
 
         public void sendToStream(String key, String value) {
