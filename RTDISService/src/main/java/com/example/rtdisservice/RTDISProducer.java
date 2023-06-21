@@ -76,7 +76,7 @@ public class RTDISProducer {
             public void onMessage(Message message) {
                 JsonObject messageData = (JsonObject) message.data;
 
-                // Publish to London transportation topic
+              
                 kafkaProducer.send(new ProducerRecord<>("london-bus-SA", messageData.toString()));
 
                 System.out.println("Received message: " + messageData.toString());
@@ -97,13 +97,12 @@ public class RTDISProducer {
         List<Channel> channels = ablyChannels(ablyRealtime());
         MessageListener messageListener = ablyMessageListener(kafkaProducer());
 
-        // Subscribe to each channel
+        
         for (Channel channel : channels) {
             channel.subscribe(messageListener);
             System.out.println("Subscribed to channel: " + channel.name);
         }
 
-        // Additional actions based on the event
         System.out.println("Ably listener configured for " + channels.size() + " channel(s)");
     }
 
