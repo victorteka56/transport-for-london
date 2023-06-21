@@ -14,4 +14,9 @@ spring:
       value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       group-id: group2
 
+  #keys
+ably:
+    key:
+      main: JWjNfg.Xz7PIg:9B8gy6YD0KYXAT8dbIuE9PxJfEo71qDrxD-RF9RfOkA
+      backup: qej_5A.CGaOkg:5zJYSv8GTuzqHemS-6S_nwWoKRCUnjWlz8yKkNF94mA
 

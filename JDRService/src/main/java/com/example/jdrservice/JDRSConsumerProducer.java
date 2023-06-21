@@ -18,6 +18,7 @@ import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.apache.kafka.common.serialization.StringSerializer;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.annotation.Bean;
@@ -30,9 +31,17 @@ import java.util.*;
 @SpringBootApplication
 @EnableKafka
 public class JDRSConsumerProducer {
+    private final String  key;
+    private final String  backup;
+
+//    @Value("${ably.key.main}")
+//    private static String key;
     static AblyRealtime ably;
     public JDRSConsumerProducer() throws AblyException {
-        ably = new AblyRealtime("qej_5A.CGaOkg:5zJYSv8GTuzqHemS-6S_nwWoKRCUnjWlz8yKkNF94mA");
+
+        key = "JWjNfg.Xz7PIg:9B8gy6YD0KYXAT8dbIuE9PxJfEo71qDrxD-RF9RfOkA";
+        backup ="qej_5A.CGaOkg:5zJYSv8GTuzqHemS-6S_nwWoKRCUnjWlz8yKkNF94mA";
+        ably = new AblyRealtime(key);
 
     }
     private static final Set<String> existingTopics = new HashSet<>();
@@ -88,7 +97,7 @@ public class JDRSConsumerProducer {
 
                             kafkaProducer.send(new ProducerRecord<>(topic, elementValue.toString()));
 
-                            List<String> topics = List.of("DS_CurrentLocation","DS_DestinationName", "DS_ExpectedArrival","DS_LineName","DS_Direction","DS_Towards");
+                            List<String> topics = List.of("DS_CurrentLocation","DS_StationName", "DS_ExpectedArrival","DS_LineName","DS_Direction","DS_Towards");
                             if(topics.contains(topic)) {
                                 Channel channel = ably.channels.get("channel1");
                                     try {
