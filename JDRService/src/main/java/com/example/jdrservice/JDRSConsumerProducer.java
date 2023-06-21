@@ -18,6 +18,7 @@ import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.event.EventListener;
 import org.springframework.kafka.annotation.EnableKafka;
+import org.springframework.stereotype.Component;
 
 import java.time.Duration;
 import java.util.Collections;
@@ -25,8 +26,7 @@ import java.util.HashSet;
 import java.util.Properties;
 import java.util.Set;
 
-@SpringBootApplication
-@EnableKafka
+@Component
 public class JDRSConsumerProducer {
     private static final Set<String> existingTopics = new HashSet<>();
 

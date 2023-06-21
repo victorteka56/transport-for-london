@@ -1,4 +1,4 @@
-package org.example;
+package com.example.rtdisservice;
 
 import com.google.gson.JsonObject;
 import io.ably.lib.realtime.AblyRealtime;
@@ -16,14 +16,14 @@ import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.event.EventListener;
 import org.springframework.kafka.annotation.EnableKafka;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Properties;
 
-@SpringBootApplication
-@EnableKafka
+@Component
 public class RTDISProducer {
     @Bean
     public AblyRealtime ablyRealtime() {
