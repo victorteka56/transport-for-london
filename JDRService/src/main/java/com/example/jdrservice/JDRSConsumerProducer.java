@@ -48,7 +48,7 @@ public class JDRSConsumerProducer {
 
     public static class MessageListener {
         private KafkaProducer<String, String> kafkaProducer;
-
+//
         public MessageListener(KafkaProducer<String, String> kafkaProducer) {
             this.kafkaProducer = kafkaProducer;
         }
@@ -108,7 +108,7 @@ public class JDRSConsumerProducer {
         consumerProps.put(ConsumerConfig.GROUP_ID_CONFIG, "group2"); // Specify your consumer group ID
         KafkaConsumer<String, String> kafkaConsumer = new KafkaConsumer<>(consumerProps);
 
-        kafkaConsumer.subscribe(Collections.singletonList("london-bus-SA")); // Replace "your-topic-name" with your desired topic
+        kafkaConsumer.subscribe(Collections.singletonList("london-bus-SA"));
 
 
         while (true) {
