@@ -18,6 +18,10 @@ import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.event.EventListener;
 import org.springframework.kafka.annotation.EnableKafka;
+import io.ably.lib.realtime.AblyRealtime;
+import io.ably.lib.realtime.Channel;
+import io.ably.lib.types.AblyException;
+
 
 import java.time.Duration;
 import java.util.Collections;
@@ -59,34 +63,45 @@ public class JDRSConsumerProducer {
             JsonElement jsonElement = JsonParser.parseString(message);
             JsonObject jsonObject = jsonElement.getAsJsonObject();
 
-
             Set<String> fieldNames = jsonObject.keySet();
             for (String fieldName : fieldNames) {
-                JsonArray fieldArray = jsonObject.getAsJsonArray(fieldName);
-                if (fieldArray != null) {
-                    for (JsonElement fieldElement : fieldArray) {
-                        JsonObject fieldObject = fieldElement.getAsJsonObject();
+                    JsonArray fieldArray = jsonObject.getAsJsonArray(fieldName);
+                    if (fieldArray != null) {
+                        for (JsonElement fieldElement : fieldArray) {
+                            JsonObject fieldObject = fieldElement.getAsJsonObject();
 
+                            for (String elementName : fieldObject.keySet()) {
+                                if (elementName.equals("LineName") || elementName.equals("Direction") || elementName.equals("DestinationName") || elementName.equals("CurrentLocation") || elementName.equals("Towards")) {
+                                    String topic = "DS_" + elementName;
+                                    JsonElement elementValue = fieldObject.get(elementName);
 
-                        for (String elementName : fieldObject.keySet()) {
-                            String topic = "DS_" + elementName;
-//
-                            JsonElement elementValue = fieldObject.get(elementName);
-
-                            kafkaProducer.send(new ProducerRecord<>(topic, elementValue.toString()));
-
-
-                            sendToStream(topic, elementValue.toString());
+                                    kafkaProducer.send(new ProducerRecord<>(topic, elementValue.toString()));
+                                    sendToStream(elementName, elementValue.toString());
+                                }
+                            }
                         }
-                    }
+
                 }
             }
         }
 
 
+
         public void sendToStream(String key, String value) {
             kafkaProducer.send(new ProducerRecord<>("stream-topic", key, value));
+
+
+            try {
+                AblyRealtime ably = new AblyRealtime("qej_5A.CGaOkg:5zJYSv8GTuzqHemS-6S_nwWoKRCUnjWlz8yKkNF94mA");
+                Channel channel = ably.channels.get("channel1");
+                channel.publish(key, value);
+
+                System.out.println("Published to Ably channel: [Key: " + key + ", Value: " + value + "]");
+            } catch (AblyException e) {
+                System.err.println("Failed to publish message to Ably channel: " + e.getMessage());
+            }
         }
+
     }
 
     @EventListener
@@ -105,10 +120,10 @@ public class JDRSConsumerProducer {
         consumerProps.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
         consumerProps.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
         consumerProps.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
-        consumerProps.put(ConsumerConfig.GROUP_ID_CONFIG, "group2"); 
+        consumerProps.put(ConsumerConfig.GROUP_ID_CONFIG, "group2");
         KafkaConsumer<String, String> kafkaConsumer = new KafkaConsumer<>(consumerProps);
 
-        kafkaConsumer.subscribe(Collections.singletonList("london-bus-SA")); 
+        kafkaConsumer.subscribe(Collections.singletonList("london-bus-SA"));
 
 
         while (true) {

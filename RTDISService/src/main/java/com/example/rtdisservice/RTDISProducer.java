@@ -1,4 +1,4 @@
-package org.example;
+package com.example.rtdisservice;
 
 import com.google.gson.JsonObject;
 import io.ably.lib.realtime.AblyRealtime;
@@ -27,7 +27,7 @@ import java.util.Properties;
 public class RTDISProducer {
     @Bean
     public AblyRealtime ablyRealtime() {
-        String ablyApiKey = "Hbqg4w.zwuBVA:lzHWwuxh4Lm3Opfgq8YAMhC2IQmYzt8BjZXmDM6596I";
+        String ablyApiKey = "Hbqg4w.DUcT9A:A9VZhP0LZ_RDXDsdgnfvjACvYUWef03G2uuExomePFU";
         try {
             return new AblyRealtime(ablyApiKey);
         } catch (AblyException e) {
@@ -40,12 +40,12 @@ public class RTDISProducer {
     @Bean
     public List<Channel> ablyChannels(AblyRealtime ablyRealtime) {
         List<String> channelNames = Arrays.asList(
-                "[product:ably-tfl/tube]tube:940GZZLUNOW:arrivals",
-                "[product:ably-tfl/tube]tube:940GZZLUCPK:arrivals",
-                "[product:ably-tfl/tube]tube:northern:940GZZLUSKW:arrivals",
-                "[product:ably-tfl/tube]tube:940GZZLUWRR:arrivals",
-                "[product:ably-tfl/tube]tube:district:940GZZLUEHM:arrivals",
-                "[product:ably-tfl/tube]tube:northern:940GZZLUEUS:arrivals"
+                "[product:ably-tfl/tube]tube:940GZZLUNOW:arrivals"
+//                "[product:ably-tfl/tube]tube:940GZZLUCPK:arrivals",
+//                "[product:ably-tfl/tube]tube:northern:940GZZLUSKW:arrivals",
+//                "[product:ably-tfl/tube]tube:940GZZLUWRR:arrivals"
+//                "[product:ably-tfl/tube]tube:district:940GZZLUEHM:arrivals",
+//                "[product:ably-tfl/tube]tube:northern:940GZZLUEUS:arrivals"
         );
 
         List<Channel> channels = new ArrayList<>();
