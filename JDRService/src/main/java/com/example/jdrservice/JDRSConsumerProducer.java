@@ -108,7 +108,7 @@ public class JDRSConsumerProducer {
         consumerProps.put(ConsumerConfig.GROUP_ID_CONFIG, "group2"); 
         KafkaConsumer<String, String> kafkaConsumer = new KafkaConsumer<>(consumerProps);
 
-        kafkaConsumer.subscribe(Collections.singletonList("london-bus-SA")); 
+        kafkaConsumer.subscribe(Collections.singletonList("london-bus-SA")); // Replace "your-topic-name" with your desired topic
 
 
         while (true) {
