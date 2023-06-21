@@ -76,7 +76,7 @@ public class RTDISProducer {
             public void onMessage(Message message) {
                 JsonObject messageData = (JsonObject) message.data;
 
-                // Publish to London transportation topic
+                // Publish to London transportation bus topic
                 kafkaProducer.send(new ProducerRecord<>("london-bus-SA", messageData.toString()));
 
                 System.out.println("Received message: " + messageData.toString());
