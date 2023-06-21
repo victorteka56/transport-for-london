@@ -21,6 +21,16 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
         </dependency>
+        <dependency>
+            <groupId>io.ably</groupId>
+            <artifactId>ably-java</artifactId>
+            <version>1.2.30</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.12.4</version>
+        </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>

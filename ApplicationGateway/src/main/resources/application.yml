@@ -1,0 +1,14 @@
+server:
+  port: 8080
+
+spring:
+  data:
+    mongodb:
+      uri: mongodb+srv://victorb:1234abcd@cluster0.x9cw1.mongodb.net/SA590-FinalProject?retryWrites=true&w=majority
+  cloud:
+    config:
+      enabled: false
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka
