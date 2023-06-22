@@ -1,5 +1,0 @@
-final-project:
-  paths:
-    no-authentication: GET /users, POST /login
-  secret-key: 404E635266C56A586E3272357538A82F413F4428472B4B6250D45367566B5970
-  token-expiration: 86400000 #1 day

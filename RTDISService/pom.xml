@@ -7,7 +7,7 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>RTDIService1</artifactId>
+    <artifactId>RTDISService</artifactId>
     <packaging>jar</packaging>
 
     <name>RTDIService1</name>

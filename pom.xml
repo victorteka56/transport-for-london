@@ -35,11 +35,6 @@
   </dependencies>
 
   <modules>
-    <module>AuthenticationService</module>
-    <module>EurekaServer</module>
-    <module>ConfigServer</module>
-    <module>UsersService</module>
-    <module>ApplicationGateway</module>
     <module>JDRService</module>
     <module>RTDISService</module>
     <module>PresentationService</module>

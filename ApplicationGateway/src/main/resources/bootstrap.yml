@@ -1,8 +1,0 @@
-spring:
-  application:
-    name: ApplicationGateway
-  main:
-    web-application-type: reactive
-  cloud:
-    config:
-      uri: http://localhost:8888
