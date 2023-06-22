@@ -11,6 +11,8 @@ import org.apache.kafka.clients.producer.Producer;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.common.serialization.StringSerializer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.annotation.Bean;
@@ -26,6 +28,8 @@ import java.util.Properties;
 
 @Component
 public class RTDISProducer {
+    private final Logger logger = LoggerFactory.getLogger(RTDISProducer.class);
+
     @Bean
     public AblyRealtime ablyRealtime() {
         String ablyApiKey = "Hbqg4w.Al6JKQ:uWcSGybODbPtuAf4n6FXo456chiqQ0W9I5cqPFAVpr4";
@@ -81,6 +85,7 @@ public class RTDISProducer {
                 kafkaProducer.send(new ProducerRecord<>("london-bus-SA", messageData.toString()));
 
                 System.out.println("Received message: " + messageData.toString());
+                logger.info("Received at RTDIS " + message.data.toString());
             }
         };
     }
@@ -102,9 +107,11 @@ public class RTDISProducer {
         for (Channel channel : channels) {
             channel.subscribe(messageListener);
             System.out.println("Subscribed to channel: " + channel.name);
+            logger.info("subscribed to channel %s", channel.name);
         }
 
         System.out.println("Ably listener configured for " + channels.size() + " channel(s)");
+        logger.info("Ably listner configured for %s", channels.size());
     }
 
 

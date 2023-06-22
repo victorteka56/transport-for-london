@@ -18,6 +18,8 @@ import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.apache.kafka.common.serialization.StringSerializer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
@@ -33,6 +35,7 @@ import java.util.*;
 public class JDRSConsumerProducer {
     private final String  key;
     private final String  backup;
+    private static final Logger logger = LoggerFactory.getLogger(JDRSConsumerProducer.class);
 
 //    @Value("${ably.key.main}")
 //    private static String key;
@@ -79,11 +82,16 @@ public class JDRSConsumerProducer {
             Set<String> fieldNames = jsonObject.keySet();
             for (String fieldName : fieldNames) {
                 JsonArray fieldArray = jsonObject.getAsJsonArray(fieldName);
+                System.out.println("Field Array");
+                System.out.println(fieldArray);
 
 
                 if (fieldArray != null) {
                     for (JsonElement fieldElement : fieldArray) {
                         JsonObject fieldObject = fieldElement.getAsJsonObject();
+                        System.out.println("Field Object");
+
+                        System.out.println(fieldObject);
 
 
 
@@ -101,10 +109,12 @@ public class JDRSConsumerProducer {
                             if(topics.contains(topic)) {
                                 Channel channel = ably.channels.get("channel1");
                                     try {
+                                        kafkaProducer.send(new ProducerRecord<>("send-to-csv",topic+", " + elementValue +","+ fieldObject.get("Timestamp")));
                                         channel.publish(topic, elementValue);
 
                                         System.out.println("Published message");
                                         System.out.println(fieldObject);
+                                        logger.info("Message received at producer %s", fieldObject);
                                     } catch (AblyException e) {
                                         throw new RuntimeException(e);
                                     }
@@ -156,6 +166,8 @@ public class JDRSConsumerProducer {
 
 
                 System.out.println("Received message: " + value);
+                logger.info("JRDS logged %s", value);
+
 
                 messageListener.onMessage(key, value);
             }

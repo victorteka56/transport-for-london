@@ -13,3 +13,8 @@ ably:
     - "[product:ably-tfl/tube]tube:940GZZLUNOW:arrivals"
     - "[product:ably-tfl/tube]tube:940GZZLUCPK:arrivals"
     - "[product:ably-tfl/tube]tube:940GZZLUWRR:arrivals"
+logging:
+  file:
+    name: /Users/victorbahta/Downloads/elk/logs/project.log
+
+
