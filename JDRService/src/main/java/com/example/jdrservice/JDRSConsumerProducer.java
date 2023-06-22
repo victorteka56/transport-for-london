@@ -97,7 +97,7 @@ public class JDRSConsumerProducer {
 
                             kafkaProducer.send(new ProducerRecord<>(topic, elementValue.toString()));
 
-                            List<String> topics = List.of("DS_CurrentLocation","DS_StationName", "DS_ExpectedArrival","DS_LineName","DS_Direction","DS_Towards");
+                            List<String> topics = List.of("DS_CurrentLocation","DS_StationName", "DS_ExpectedArrival","DS_LineName","DS_PlatformName","DS_Towards");
                             if(topics.contains(topic)) {
                                 Channel channel = ably.channels.get("channel1");
                                     try {

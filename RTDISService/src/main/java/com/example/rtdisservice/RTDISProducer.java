@@ -28,7 +28,7 @@ import java.util.Properties;
 public class RTDISProducer {
     @Bean
     public AblyRealtime ablyRealtime() {
-        String ablyApiKey = "Hbqg4w.KCiACA:LlUW-i7LuhocsiDbZRvGTvY-HllDteAfBA3ckktpHK8";
+        String ablyApiKey = "Hbqg4w.Al6JKQ:uWcSGybODbPtuAf4n6FXo456chiqQ0W9I5cqPFAVpr4";
         try {
             return new AblyRealtime(ablyApiKey);
         } catch (AblyException e) {
